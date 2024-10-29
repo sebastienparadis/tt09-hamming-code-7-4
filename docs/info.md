@@ -48,14 +48,14 @@ The syndrome {S2, S1, S0} gives the error location:
 - E.g. if syndrome is 010, then. Our error bit is at bit 4
 - If an error is detected, flip the bit at the position indicated by the syndrome.
 
+### Implementation
+TODO.
+
+
 ## How to test
-
-Explain how to use your project
-
-### TODO
+This section remains TODO.
 
 ## External hardware
+This section remains TODO.
 
 List external hardware used in your project (e.g. PMOD, LED display, etc), if any
-
-### TODO

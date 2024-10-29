@@ -11,7 +11,7 @@ module hamming_decoder (
 );
 
     // Error detection and correction
-    output wire [6:0] corrected_code; // 7-bit corrected codeword
+    wire [6:0] corrected_code; // 7-bit corrected codeword
     wire [2:0] syndrome; // Parity check bits
 
     assign syndrome[0] = code[6] ^ code[4] ^ code[2] ^ code[0]; // S3
