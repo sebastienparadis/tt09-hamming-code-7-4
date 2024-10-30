@@ -129,7 +129,7 @@ async def validate_decoding(dut):
     dut._log.info("Starting Hamming (7,4) Decoding Test Suite")
     
     # Iterate through each encoded value and flip each bit
-    for encoded in codes.items():
+    for encoded in codes:
         for bit_position in range(7):
             # Flip the current bit
             flipped_code = encoded ^ (1 << bit_position)
