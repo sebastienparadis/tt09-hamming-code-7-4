@@ -13,10 +13,60 @@ You can also include images in this folder and reference them in the markdown. E
 The Hamming (7,4) encoder is a linear error-correcting code that encodes 4 data bits into 7 bits by adding 3 parity bits, which can detect and correct a single-bit error. 
 
 #### Details
--   Parity: p1 p2 p3
--   Data: d1 d2 d3 d4
-- 	Input: 4 data bits (d1 d2 d3 d4)
--	Output: 7 encoded bits (p1 p2 d1 p3 d2 d3 d4)
+**Parity Format {p1 p2 p3}**
+
+**Data Format   {d1 d2 d3 d4}**
+
+
+### Hamming Decoder (7,4) Overview
+The decoder checks the received 7-bit word for errors and corrects a single-bit error if detected. The process involves recalculating the parity bits and comparing them with the received parity.
+
+### Implementation
+This implementation of the (7,4) Hamming Code allows for the same input to be used for encoding and decoding, with dynamic selection of the mode using the MSB of the input.
+
+#### Input
+An 8-bit input "ui" with the following format (note the form is {7 6 5 4 3 2 1 0})
+
+**Input Pins**
+| Input | Description                                                             |
+|-------|-------------------------------------------------------------------------|
+| ui[0] | Bit 0 for 4-bit data input, d4|
+| ui[1] | Bit 1 for 4-bit data input, d3|
+| ui[2] | Bit 2 for 4-bit data input, d2|
+| ui[3] | Bit 3 for 4-bit data input, d1|
+| ui[4] | X|
+| ui[5] | X|
+| ui[6] | X|
+| ui[7] | Mode Selector (0 => Encode, uses ui[3:0]; 1 => Decode, uses ui[6:0])    |
+
+#### Output
+An 8-bit output "uo" with the following format (note the form is {7 6 5 4 3 2 1 0})
+
+**Output Pins**
+| Output | Description                                                   |
+|--------|---------------------------------------------------------------|
+| uo[0]  | Bit 0 for 7-bit encoded output, d4                     |
+| uo[1]  | Bit 1 for 7-bit encoded output, d3                      |
+| uo[2]  | Bit 2 for 7-bit encoded output, d2                      |
+| uo[3]  | Bit 3 for 7-bit encoded output, p3                      |
+| uo[4]  | Bit 4 for 7-bit encoded output, d1                      |
+| uo[5]  | Bit 5 for 7-bit encoded output, p2                      |
+| uo[6]  | Bit 6 for 7-bit encoded output, p1                      |
+| uo[7]  | X|
+
+
+#### Encode Mode
+- Encode Mode is selected by setting the MSB of the input (bit 7) LOW (0).
+
+- If encode mode is chosen, the encoder will use bits 3:0 as the four data bits to be encoded, and produce a 7-bit encoded output.
+
+- Bit 6:4 are not involved in any encoding.
+
+**Encode Mode Input Format**
+{selector, X, X, X, d1, d2, d3, d4}
+
+**Encode Mode Output Format**
+{p1, p2, d1, p3, d2, d3, d4}
 
 #### Parity Bit Calculations
 1.	p1 covers bits d1, d2, and d4.
@@ -25,12 +75,40 @@ The Hamming (7,4) encoder is a linear error-correcting code that encodes 4 data 
 	- p2 = d1 XOR d3 XOR d4
 3.	p3 covers bits d2, d3, and d4.
     - p3 = d2 XOR d3 XOR d4
+    
 
-#### Encoder Output Format
-** p1, p2, d1, p3, d2, d3, d4 **
+**Expected Outputs of Encode Mode**
+| Input (Binary) | Expected Output (Binary) |
+|----------------|--------------------------|
+| 0XXXd1d2d3d4   | 0p1p2d1p3d2d3d4          |
+| 00000000       | 00000000                 |
+| 00000001       | 01101001                 |
+| 00000010       | 00101010                 |
+| 00000011       | 01000011                 |
+| 00000100       | 01001100                 |
+| 00000101       | 00100101                 |
+| 00000110       | 01100110                 |
+| 00000111       | 00001111                 |
+| 00001000       | 01110000                 |
+| 00001001       | 00011001                 |
+| 00001010       | 01011010                 |
+| 00001011       | 00110011                 |
+| 00001100       | 00111100                 |
+| 00001101       | 01010101                 |
+| 00001110       | 00010110                 |
+| 00001111       | 01111111                 |
 
-### Hamming Decoder (7,4) Overview
-The decoder checks the received 7-bit word for errors and corrects a single-bit error if detected. The process involves recalculating the parity bits and comparing them with the received parity.
+
+
+#### Decode Mode
+- Decode Mode is selected by setting the MSB of the input (bit 7) HIGH (1).
+
+- If decode mode is chosen, the decoder will use bits 7:0, both the data and parity bits, and produce a 7-bit decoded output. The decoded output will be the originally encoded input as long as there were less than 2 flipped bits between encoder output and decoder input.
+
+**Decode Mode Input Format {p1, p2, d1, p3, d2, d3, d4}**
+
+**Decode Mode Output Format {p1, p2, d1, p3, d2, d3, d4}**
+- a maximum of 1 bit could be flipped at position {S2, S1, S0}.
 
 #### Syndrome Calculation
 The syndrome indicates the position of an error (if any):
@@ -48,14 +126,10 @@ The syndrome {S2, S1, S0} gives the error location:
 - E.g. if syndrome is 010, then. Our error bit is at bit 4
 - If an error is detected, flip the bit at the position indicated by the syndrome.
 
-### Implementation
-TODO.
-
-
 ## How to test
-This section remains TODO.
+Testing can be done by applying known data inputs with LOW as the value of the 7th bit (encode mode), and ensuring that the output is the expected encoding value (see table of expected outputs in encode mode).
+
+Similarly, known encoded values can by used as input, with the 7th bit as HIGH (decode mode), and we can ensure that the output is the exact same as the original encoded value, even if we flip 1 bit. This should be done for each of the 7 bits for all encoded values
 
 ## External hardware
-This section remains TODO.
-
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+TBD based on implementation.
