@@ -44,8 +44,7 @@ module tt_um_sebastienparadis_hamming_top (
     assign uio_oe  = 8'b0;                 // Unused I/O enable
 
     // Prevent warnings by listing unused inputs
-    wire _unused = &{ena, clk, rst_n, 1'b0};
-
+    wire _unused = &{ena, clk, uio_in, 1'b0};
 endmodule
 
 // Hamming Controller

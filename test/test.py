@@ -131,10 +131,10 @@ async def validate_decoding(dut):
 
     # Iterate through each encoded value and flip each bit
     for encoded in codes:
+        expected_decode = encoded ^ mask
         for bit_position in range(7):
             # Flip the current bit
             flipped_code = encoded ^ (1 << bit_position)
-            expected_decode = encoded ^ mask
             dut.ui_in.value = flipped_code
             await ClockCycles(dut.clk, 1)
             
