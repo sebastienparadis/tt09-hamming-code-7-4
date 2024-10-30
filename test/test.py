@@ -104,9 +104,56 @@ async def validate_encoding(dut):
 
 @cocotb.test()
 async def validate_decoding(dut):
+    await init_dut(dut)  # Initialize DUT at the start of the test
+
+    # Define the encoded Hamming (7,4) codes
+    codes = {
+        0b00000000,
+        0b01101001,
+        0b00101010,
+        0b01000011,
+        0b01001100,
+        0b00100101,
+        0b01100110,
+        0b00001111,
+        0b01110000,
+        0b00011001,
+        0b01011010,
+        0b00110011,
+        0b00111100,
+        0b01010101,
+        0b00010110,
+        0b01111111
+    }
+
     dut._log.info("Starting Hamming (7,4) Decoding Test Suite")
+    
+    # Iterate through each encoded value and flip each bit
+    for encoded in codes.items():
+        for bit_position in range(7):
+            # Flip the current bit
+            flipped_code = encoded ^ (1 << bit_position)
+            
+            dut.ui_in.value = flipped_code
+            await ClockCycles(dut.clk, 1)
+            
+            # Check if the decoded output matches the original encoded value
+            if dut.uo_out.value == encoded: 
+                dut._log.info(
+                    f"PASS: Encoded {bin(encoded)[2:].zfill(7)}, "
+                    f"flipped at position {bit_position}: {bin(flipped_code)[2:].zfill(7)}. " 
+                    f"Decoded correctly to {bin(dut.uo_out.value)[2:].zfill(7)}"
+                )
+            else:
+                dut._log.error(
+                    f"FAIL: Encoded {bin(encoded)[2:].zfill(7)}, "
+                    f"flipped at position {bit_position}: {bin(flipped_code)[2:].zfill(7)}"
+                    f"Expected {bin(encoded)[2:].zfill(7)}, got {bin(dut.uo_out.value)[2:].zfill(7)}"
+                )
+                assert dut.uo_out.value == flipped_code, (
+                    f"Decoding failed for encoded {bin(encoded)[2:].zfill(7)} "
+                    f"with bit flipped at position {bit_position}: {bin(flipped_code)[2:].zfill(7)}"
+                    f"Expected {bin(encoded)[2:].zfill(7)}, got {bin(dut.uo_out.value)[2:].zfill(7)}"
+                )
 
-
-
-    dut._log.error("Decoding Test Suite Not Implemented, Skipping")
-    pass
+    dut._log.info("COMPLETED SUCCESSFULLY: Hamming Decoding Test Suite")
