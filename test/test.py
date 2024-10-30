@@ -76,7 +76,7 @@ async def validate_encoding(dut):
     }
 
     for data_input, expected_encoded in test_cases.items():
-        dut.ui_in,value = data_input
+        dut.ui_in.value = data_input
         await ClockCycles(dut.clk, 1)
 
         if dut.uo_out.value == expected_encoded: 
