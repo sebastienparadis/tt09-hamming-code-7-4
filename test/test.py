@@ -127,18 +127,19 @@ async def validate_decoding(dut):
     }
 
     dut._log.info("Starting Hamming (7,4) Decoding Test Suite")
-    
+    mask = 0b10000000  
+
     # Iterate through each encoded value and flip each bit
     for encoded in codes:
         for bit_position in range(6):
             # Flip the current bit
             flipped_code = encoded ^ (1 << bit_position)
-            
+            expected_decode = (encoded ^ mask) >> 1
             dut.ui_in.value = flipped_code
             await ClockCycles(dut.clk, 1)
             
             # Check if the decoded output matches the original encoded value
-            if dut.uo_out.value == encoded: 
+            if dut.uo_out.value == expected_decode: 
                 dut._log.info(
                     f"PASS: Encoded {bin(encoded)[2:].zfill(7)}, "
                     f"flipped at position {bit_position}: {bin(flipped_code)[2:].zfill(7)}. " 
@@ -148,12 +149,12 @@ async def validate_decoding(dut):
                 dut._log.error(
                     f"FAIL: Encoded {bin(encoded)[2:].zfill(7)}, "
                     f"flipped at position {bit_position}: {bin(flipped_code)[2:].zfill(7)}. "
-                    f"Expected {bin(encoded)[2:].zfill(7)}, got {bin(dut.uo_out.value)[2:].zfill(7)}"
+                    f"Expected {bin(expected_decode)[2:].zfill(7)}, got {bin(dut.uo_out.value)[2:].zfill(7)}"
                 )
                 assert dut.uo_out.value == flipped_code, (
                     f"Decoding failed for encoded {bin(encoded)[2:].zfill(7)} "
-                    f"with bit flipped at position {bit_position}: {bin(flipped_code)[2:].zfill(7)}"
-                    f"Expected {bin(encoded)[2:].zfill(7)}, got {bin(dut.uo_out.value)[2:].zfill(7)}"
+                    f"with bit flipped at position {bit_position}: {bin(flipped_code)[2:].zfill(7)}. "
+                    f"Expected {bin(expected_decode)[2:].zfill(7)}, got {bin(dut.uo_out.value)[2:].zfill(7)}"
                 )
 
     dut._log.info("COMPLETED SUCCESSFULLY: Hamming Decoding Test Suite")
