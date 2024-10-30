@@ -24,7 +24,7 @@ async def init_dut(dut):
 
 @cocotb.test()
 async def validate_encoding(dut):
-    init_dut(dut)
+    await init_dut(dut)
 
     # Set the input values you want to test
     dut._log.info("Starting Hamming (7,4) Encoding Test Suite")
