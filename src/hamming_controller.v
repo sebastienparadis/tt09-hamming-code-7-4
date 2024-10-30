@@ -75,7 +75,7 @@ module hamming_controller (
     );
 
     // Output based on mode
-    assign encoded_code = (mode == 0) ? encoder_code : 7'bz; // Output encoded code only in encoding mode
-    assign decoded_data = (mode == 1) ? decoder_data : 7'bz; // Output decoded data only in decoding mode
+    assign encoded_code = (mode == 0) ? encoder_code : 7'b0; // Output encoded code only in encoding mode
+    assign decoded_data = (mode == 1) ? decoder_data : 7'b0; // Output decoded data only in decoding mode
 
 endmodule
