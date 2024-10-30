@@ -28,7 +28,8 @@ async def validate_encoding(dut):
 
     # Set the input values you want to test
     dut._log.info("Starting Hamming (7,4) Encoding Test Suite")
-    test_cases = {
+    dut._log.info("### Test Case 1: 4-Bit Inputs")
+    test_cases_1 = {
         0b00000000: 0b00000000,
         0b00000001: 0b01101001,
         0b00000010: 0b00101010,
@@ -47,12 +48,48 @@ async def validate_encoding(dut):
         0b00001111: 0b01111111
     }
 
-    for data_input, expected_encoded in test_cases.items():
+    for data_input, expected_encoded in test_cases_1.items():
         dut.ui_in.value = data_input
         await ClockCycles(dut.clk, 1)
 
         if dut.uo_out.value == expected_encoded: 
-            f"PASS: Input {bin(data_input)[2:].zfill(4)} encoded correctly as {bin(expected_encoded)[2:].zfill(7)}" 
+            dut._log.info(f"PASS: Input {bin(data_input)[2:].zfill(4)} encoded correctly as {bin(expected_encoded)[2:].zfill(7)}")
+        else:
+            dut._log.error(
+                f"FAIL: Input {bin(data_input)[2:].zfill(4)} encoding error. "
+                f"Expected {bin(expected_encoded)[2:].zfill(7)}, got {bin(dut.uo_out.value)[2:].zfill(7)}"
+            )
+            assert dut.uo_out.value == expected_encoded, (
+                f"Encoding failed for input {bin(data_input)[2:].zfill(4)}. "
+                f"Expected {bin(expected_encoded)[2:].zfill(7)}, got {bin(dut.uo_out.value)[2:].zfill(7)}"
+            )
+
+    dut._log.info("### Test Case 2: 7-Bit Inputs")
+    test_cases_2 = {
+        0b00100000: 0b00000000,
+        0b00100001: 0b01101001,
+        0b00100010: 0b00101010,
+        0b00100011: 0b01000011,
+        0b00100100: 0b01001100,
+        0b00100101: 0b00100101,
+        0b00100110: 0b01100110,
+        0b00100111: 0b00001111,
+        0b00101000: 0b01110000,
+        0b00101001: 0b00011001,
+        0b00101010: 0b01011010,
+        0b00101011: 0b00110011,
+        0b00101100: 0b00111100,
+        0b00101101: 0b01010101,
+        0b00101110: 0b00010110,
+        0b00101111: 0b01111111
+    }
+
+    for data_input, expected_encoded in test_cases_2.items():
+        dut.ui_in.value = data_input
+        await ClockCycles(dut.clk, 1)
+
+        if dut.uo_out.value == expected_encoded: 
+            dut._log.info(f"PASS: Input {bin(data_input)[2:].zfill(7)} encoded correctly as {bin(expected_encoded)[2:].zfill(7)}")
         else:
             dut._log.error(
                 f"FAIL: Input {bin(data_input)[2:].zfill(4)} encoding error. "
@@ -65,9 +102,11 @@ async def validate_encoding(dut):
 
     dut._log.info("COMPLETED SUCCESSFULLY: Hamming Encoding Test Suite")
 
-
 @cocotb.test()
 async def validate_decoding(dut):
     dut._log.info("Starting Hamming (7,4) Decoding Test Suite")
+
+
+
     dut._log.error("Decoding Test Suite Not Implemented, Skipping")
     pass
