@@ -131,10 +131,10 @@ async def validate_decoding(dut):
 
     # Iterate through each encoded value and flip each bit
     for encoded in codes:
-        for bit_position in range(6):
+        for bit_position in range(7):
             # Flip the current bit
             flipped_code = encoded ^ (1 << bit_position)
-            expected_decode = (encoded ^ mask) >> 1
+            expected_decode = encoded ^ mask
             dut.ui_in.value = flipped_code
             await ClockCycles(dut.clk, 1)
             
@@ -142,18 +142,18 @@ async def validate_decoding(dut):
             if dut.uo_out.value == expected_decode: 
                 dut._log.info(
                     f"PASS: Encoded {bin(encoded)[2:].zfill(7)}, "
-                    f"flipped at position {bit_position}: {bin(flipped_code)[2:].zfill(7)}. " 
+                    f"flipped at position {bit_position + 1}: {bin(flipped_code)[2:].zfill(7)}. " 
                     f"Decoded correctly to {bin(dut.uo_out.value)[2:].zfill(7)}"
                 )
             else:
                 dut._log.error(
                     f"FAIL: Encoded {bin(encoded)[2:].zfill(7)}, "
-                    f"flipped at position {bit_position}: {bin(flipped_code)[2:].zfill(7)}. "
+                    f"flipped at position {bit_position + 1}: {bin(flipped_code)[2:].zfill(7)}. "
                     f"Expected {bin(expected_decode)[2:].zfill(7)}, got {bin(dut.uo_out.value)[2:].zfill(7)}"
                 )
                 assert dut.uo_out.value == flipped_code, (
                     f"Decoding failed for encoded {bin(encoded)[2:].zfill(7)} "
-                    f"with bit flipped at position {bit_position}: {bin(flipped_code)[2:].zfill(7)}. "
+                    f"with bit flipped at position {bit_position + 1}: {bin(flipped_code)[2:].zfill(7)}. "
                     f"Expected {bin(expected_decode)[2:].zfill(7)}, got {bin(dut.uo_out.value)[2:].zfill(7)}"
                 )
 
