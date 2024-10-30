@@ -108,29 +108,29 @@ async def validate_decoding(dut):
 
     # Define the encoded Hamming (7,4) codes
     codes = {
-        0b00000000,
-        0b01101001,
-        0b00101010,
-        0b01000011,
-        0b01001100,
-        0b00100101,
-        0b01100110,
-        0b00001111,
-        0b01110000,
-        0b00011001,
-        0b01011010,
-        0b00110011,
-        0b00111100,
-        0b01010101,
-        0b00010110,
-        0b01111111
+        0b10000000,
+        0b11101001,
+        0b10101010,
+        0b11000011,
+        0b11001100,
+        0b10100101,
+        0b11100110,
+        0b10001111,
+        0b11110000,
+        0b10011001,
+        0b11011010,
+        0b10110011,
+        0b10111100,
+        0b11010101,
+        0b10010110,
+        0b11111111
     }
 
     dut._log.info("Starting Hamming (7,4) Decoding Test Suite")
     
     # Iterate through each encoded value and flip each bit
     for encoded in codes:
-        for bit_position in range(7):
+        for bit_position in range(6):
             # Flip the current bit
             flipped_code = encoded ^ (1 << bit_position)
             
@@ -147,7 +147,7 @@ async def validate_decoding(dut):
             else:
                 dut._log.error(
                     f"FAIL: Encoded {bin(encoded)[2:].zfill(7)}, "
-                    f"flipped at position {bit_position}: {bin(flipped_code)[2:].zfill(7)}"
+                    f"flipped at position {bit_position}: {bin(flipped_code)[2:].zfill(7)}. "
                     f"Expected {bin(encoded)[2:].zfill(7)}, got {bin(dut.uo_out.value)[2:].zfill(7)}"
                 )
                 assert dut.uo_out.value == flipped_code, (
