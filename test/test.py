@@ -42,7 +42,7 @@ Test 2
 @cocotb.test()
 async def validate_encoding(dut):
     await init_dut(dut)
-    dut._log.info("\n\nStarting Hamming (7,4) Encoding Test Suite")
+    dut._log.info("Starting Hamming (7,4) Encoding Test Suite")
 
     dut._log.info("### Test Case 1: 4-Bit Inputs")
     test_cases_1 = {
@@ -69,7 +69,8 @@ async def validate_encoding(dut):
         await ClockCycles(dut.clk, 1)
 
         if dut.uo_out.value == expected_encoded: 
-            dut._log.info(f"PASS: Input {bin(data_input)[2:].zfill(4)} encoded correctly as {bin(expected_encoded)[2:].zfill(7)}")
+            dut._log.info("Pass")
+            # dut._log.info(f"PASS: Input {bin(data_input)[2:].zfill(4)} encoded correctly as {bin(expected_encoded)[2:].zfill(7)}")
         else:
             dut._log.error(
                 f"FAIL: Input {bin(data_input)[2:].zfill(4)} encoding error. "
@@ -80,7 +81,7 @@ async def validate_encoding(dut):
                 f"Expected {bin(expected_encoded)[2:].zfill(7)}, got {bin(dut.uo_out.value)[2:].zfill(7)}"
             )
 
-    dut._log.info("\n### Test Case 2: 7-Bit Inputs")
+    dut._log.info("### Test Case 2: 7-Bit Inputs")
     test_cases_2 = {
         0b00100000: 0b00000000,
         0b00110001: 0b01101001,
