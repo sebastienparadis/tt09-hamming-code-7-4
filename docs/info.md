@@ -28,6 +28,7 @@ This implementation of the (7,4) Hamming Code allows for the same input to be us
 An 8-bit input "ui" with the following format (note the form is {7 6 5 4 3 2 1 0})
 
 **Input Pins**<br>
+
 - ui[0] - Bit 0 for 4-bit data input, d4<br>
 - ui[1] - Bit 1 for 4-bit data input, d3<br>
 - ui[2] - Bit 2 for 4-bit data input, d2<br>
@@ -41,6 +42,7 @@ An 8-bit input "ui" with the following format (note the form is {7 6 5 4 3 2 1 0
 An 8-bit output "uo" with the following format (note the form is {7 6 5 4 3 2 1 0})
 
 **Output Pins**<br>
+
 - uo[0] - Bit 0 for 7-bit encoded output, d4<br>
 - uo[1] - Bit 1 for 7-bit encoded output, d3<br>
 - uo[2] - Bit 2 for 7-bit encoded output, d2<br>
@@ -103,10 +105,13 @@ An 8-bit output "uo" with the following format (note the form is {7 6 5 4 3 2 1 
 **Decode Mode Input Format {p1, p2, d1, p3, d2, d3, d4}**
 
 **Decode Mode Output Format {p1, p2, d1, p3, d2, d3, d4}**
+
 - a maximum of 1 bit could be flipped at position {S2, S1, S0}.
 
 #### Syndrome Calculation
+
 The syndrome indicates the position of an error (if any):
+
 1. S0 is recalculated using the same bits used to calculate p1 during encoding:
 	- S0 = p1' XOR d1 XOR d2 XOR d4
 2. S1 recalculates p2:
