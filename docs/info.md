@@ -28,27 +28,27 @@ This implementation of the (7,4) Hamming Code allows for the same input to be us
 An 8-bit input "ui" with the following format (note the form is {7 6 5 4 3 2 1 0})
 
 **Input Pins**<br>
-ui[0] - Bit 0 for 4-bit data input, d4<br>
-ui[1] - Bit 1 for 4-bit data input, d3<br>
-ui[2] - Bit 2 for 4-bit data input, d2<br>
-ui[3] - Bit 3 for 4-bit data input, d1<br>
-ui[4] - X<br>
-ui[5] - X<br>
-ui[6] - X<br>
-ui[7] - Mode Selector (0 => Encode, uses ui[3:0]; 1 => Decode, uses ui[6:0])<br>
+- ui[0] - Bit 0 for 4-bit data input, d4<br>
+- ui[1] - Bit 1 for 4-bit data input, d3<br>
+- ui[2] - Bit 2 for 4-bit data input, d2<br>
+- ui[3] - Bit 3 for 4-bit data input, d1<br>
+- ui[4] - X<br>
+- ui[5] - X<br>
+- ui[6] - X<br>
+- ui[7] - Mode Selector (0 => Encode, uses ui[3:0]; 1 => Decode, uses ui[6:0])<br>
 
 #### Output
 An 8-bit output "uo" with the following format (note the form is {7 6 5 4 3 2 1 0})
 
 **Output Pins**<br>
-uo[0] - Bit 0 for 7-bit encoded output, d4<br>
-uo[1] - Bit 1 for 7-bit encoded output, d3<br>
-uo[2] - Bit 2 for 7-bit encoded output, d2<br>
-uo[3] - Bit 3 for 7-bit encoded output, p3<br>
-uo[4] - Bit 4 for 7-bit encoded output, d1<br>
-uo[5] - Bit 5 for 7-bit encoded output, p2<br>
-uo[6] - Bit 6 for 7-bit encoded output, p1<br>
-uo[7] - X<br>
+- uo[0] - Bit 0 for 7-bit encoded output, d4<br>
+- uo[1] - Bit 1 for 7-bit encoded output, d3<br>
+- uo[2] - Bit 2 for 7-bit encoded output, d2<br>
+- uo[3] - Bit 3 for 7-bit encoded output, p3<br>
+- uo[4] - Bit 4 for 7-bit encoded output, d1<br>
+- uo[5] - Bit 5 for 7-bit encoded output, p2<br>
+- uo[6] - Bit 6 for 7-bit encoded output, p1<br>
+- uo[7] - X<br>
 
 
 #### Encode Mode
@@ -75,23 +75,23 @@ uo[7] - X<br>
 
 #### Expected Outputs of Encode Mode<br>
 
-0XXXd1d2d3d4 -> 0p1p2d1p3d2d3d4<br>
-00000000 -> 00000000<br>
-00000001 -> 01101001<br>
-00000010 -> 00101010<br>
-00000011 -> 01000011<br>
-00000100 -> 01001100<br>
-00000101 -> 00100101<br>
-00000110 -> 01100110<br>
-00000111 -> 00001111<br>
-00001000 -> 01110000<br>
-00001001 -> 00011001<br>
-00001010 -> 01011010<br>
-00001011 -> 00110011<br>
-00001100 -> 00111100<br>
-00001101 -> 01010101<br>
-00001110 -> 00010110<br>
-00001111 -> 01111111<br>
+- 0XXXd1d2d3d4 -> 0p1p2d1p3d2d3d4<br>
+- 00000000 -> 00000000<br>
+- 00000010 -> 00101010<br>
+- 00000001 -> 01101001<br>
+- 00000011 -> 01000011<br>
+- 00000100 -> 01001100<br>
+- 00000101 -> 00100101<br>
+- 00000110 -> 01100110<br>
+- 00000111 -> 00001111<br>
+- 00001000 -> 01110000<br>
+- 00001001 -> 00011001<br>
+- 00001010 -> 01011010<br>
+- 00001011 -> 00110011<br>
+- 00001100 -> 00111100<br>
+- 00001101 -> 01010101<br>
+- 00001110 -> 00010110<br>
+- 00001111 -> 01111111<br>
 
 
 
@@ -116,6 +116,7 @@ The syndrome indicates the position of an error (if any):
 
 #### Error Correction
 The syndrome {S2, S1, S0} gives the error location:
+
 - If the syndrome is 000, no error is detected.
 - If the syndrome is non-zero, the position of the error corresponds to the syndrome value (1 for the least significant bit, 7 for the most significant bit).
 - E.g. if syndrome is 010, then. Our error bit is at bit 4
