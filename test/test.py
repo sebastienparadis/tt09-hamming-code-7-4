@@ -69,7 +69,7 @@ async def validate_encoding(dut):
         await ClockCycles(dut.clk, 1)
 
         if dut.uo_out.value == expected_encoded: 
-            dut._log.info(f"PASS:  {bin(data_input)[2:].zfill(4)} encoded correctly as {bin(expected_encoded)[2:].zfill(7)}")
+            dut._log.info(f"PASS: Input {bin(data_input)[2:].zfill(4)} encoded as {bin(expected_encoded)[2:].zfill(7)}")
         else:
             dut._log.error(
                 f"FAIL: Input {bin(data_input)[2:].zfill(4)} encoding error. "
@@ -104,7 +104,8 @@ async def validate_encoding(dut):
         dut.ui_in.value = data_input
         await ClockCycles(dut.clk, 1)
 
-        if dut.uo_out.value == expected_encoded:             dut._log.info(f"PASS: {bin(data_input)[2:].zfill(7)} encoded correctly as {bin(expected_encoded)[2:].zfill(7)}")
+        if dut.uo_out.value == expected_encoded: 
+            dut._log.info(f"PASS: {bin(data_input)[2:].zfill(7)} encoded as {bin(expected_encoded)[2:].zfill(7)}")
         else:
             dut._log.error(
                 f"FAIL: Input {bin(data_input)[2:].zfill(4)} encoding error. "
@@ -168,8 +169,8 @@ async def validate_decoding(dut):
             # Check if the decoded output matches the original encoded value
             if dut.uo_out.value == expected_decode: 
                 dut._log.info(
-                    f"PASS: {bin(encoded)[2:].zfill(7)} with flipped bit {bit_position + 1}: "
-                    f"{bin(flipped_code)[2:].zfill(7)}. " 
+                    f"PASS: Encoded {bin(encoded)[2:].zfill(7)}, "
+                    f"flipped at position {bit_position + 1}: {bin(flipped_code)[2:].zfill(7)}. " 
                     f"Decoded correctly to {bin(dut.uo_out.value)[2:].zfill(7)}"
                 )
             else:
