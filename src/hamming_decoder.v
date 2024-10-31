@@ -10,19 +10,17 @@ module hamming_decoder (
     input wire rst_n                  // Active-low reset signal
 );
 
-    // Error detection and correction
     wire [6:0] corrected_code; // 7-bit corrected codeword
-    wire [2:0] syndrome; // Parity check bits
+    wire [2:0] syndrome; // Syndrome Bits
 
-    assign syndrome[0] = code[6] ^ code[4] ^ code[2] ^ code[0]; // S3
-    assign syndrome[1] = code[5] ^ code[4] ^ code[1] ^ code[0]; // S2
-    assign syndrome[2] = code[3] ^ code[2] ^ code[1] ^ code[0]; // S1
+    assign syndrome[0] = code[6] ^ code[4] ^ code[2] ^ code[0]; // S0
+    assign syndrome[1] = code[5] ^ code[4] ^ code[1] ^ code[0]; // S1
+    assign syndrome[2] = code[3] ^ code[2] ^ code[1] ^ code[0]; // S2
 
-    // Syndrome and Bit Correction
+    // Bit Correction
     assign corrected_code = (rst_n) ? (
         (syndrome != 3'b000) ? (code ^ (1 << (7 - syndrome))) : code
     ) : 7'b0;
-    // end
 
     assign data_out = corrected_code;
 endmodule
