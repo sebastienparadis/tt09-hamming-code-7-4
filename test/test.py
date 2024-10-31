@@ -188,5 +188,7 @@ async def validate_decoding(dut):
                     f"with bit flipped at position {bit_position + 1}: {bin(flipped_code)[2:].zfill(7)}. "
                     f"Expected {bin(expected_decode)[2:].zfill(7)}, got {bin(dut.uo_out.value)[2:].zfill(7)}"
                 )
+        dut._log.info("\n")
+
 
     dut._log.info("\n\nCOMPLETED TEST SUITE SUCCESSFULLY: Hamming Decoding Test Suite")
