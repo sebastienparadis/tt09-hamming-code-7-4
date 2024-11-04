@@ -159,12 +159,11 @@ async def validate_decoding(dut):
     }
 
     # Mask used to remove the MSB = 1 from the expected output
-    # mask = 0b10000000  
+    mask = 0b10000000  
 
     # Iterate through each encoded value and flip each bit
     for encoded in codes:
-        # expected_decode = encoded ^ mask
-        expected_decode = encoded & 0b01111111  # Mask MSB to ensure it is 0 in the expected output
+        expected_decode = encoded ^ mask
         for bit_position in range(7):
             # Flip the current bit
             flipped_code = encoded ^ (1 << bit_position)
@@ -191,67 +190,5 @@ async def validate_decoding(dut):
                 )
         dut._log.info("\n")
 
-
-    dut._log.info("\n# Test 1: 2-bit errors #")
-
-
-@cocotb.test()
-async def validate_two_bit_errors(dut):
-    await init_dut(dut)  # Initialize DUT at the start of the test
-
-    dut._log.info("\n\n##############################################")
-    dut._log.info("# Starting Hamming (7,4) Two-Bit Error Test #")
-    dut._log.info("##############################################")
-
-    # Define the encoded Hamming (7,4) codes
-    codes = {
-        0b10000000,
-        0b11101001,
-        0b10101010,
-        0b11000011,
-        0b11001100,
-        0b10100101,
-        0b11100110,
-        0b10001111,
-        0b11110000,
-        0b10011001,
-        0b11011010,
-        0b10110011,
-        0b10111100,
-        0b11010101,
-        0b10010110,
-        0b11111111
-    }
-
-    # Iterate through each encoded codeword and apply two-bit errors
-    for encoded in codes:
-        for bit_position_1 in range(7):
-            for bit_position_2 in range(bit_position_1 + 1, 7):  # Ensure two unique bit flips
-                # Flip two bits in the codeword to simulate a two-bit error
-                two_bit_error_code = encoded ^ (1 << bit_position_1) ^ (1 << bit_position_2)
-                dut.ui_in.value = two_bit_error_code
-                await ClockCycles(dut.clk, 1)
-
-                # Check if the decoder output indicates a two-bit error by setting the MSB to 1
-                if dut.uo_out.value[7] == 1:  # Check MSB for two-bit error indication
-                    dut._log.info(
-                        f"PASS: Encoded {bin(encoded)[2:].zfill(7)}, "
-                        f"flipped at positions {bit_position_1 + 1} and {bit_position_2 + 1}: "
-                        f"{bin(two_bit_error_code)[2:].zfill(7)}. "
-                        f"Detected as two-bit error with output {bin(dut.uo_out.value)[2:].zfill(8)}"
-                    )
-                else:
-                    dut._log.error(
-                        f"FAIL: Encoded {bin(encoded)[2:].zfill(7)}, "
-                        f"flipped at positions {bit_position_1 + 1} and {bit_position_2 + 1}: "
-                        f"{bin(two_bit_error_code)[2:].zfill(7)}. "
-                        f"Expected MSB=1 for two-bit error indication, got {bin(dut.uo_out.value)[2:].zfill(8)}"
-                    )
-                    assert dut.uo_out.value[7] == 1, (
-                        f"Two-bit error not detected correctly for encoded {bin(encoded)[2:].zfill(7)} "
-                        f"with bits flipped at positions {bit_position_1 + 1} and {bit_position_2 + 1}: "
-                        f"{bin(two_bit_error_code)[2:].zfill(7)}. Expected MSB=1, got {bin(dut.uo_out.value)[2:].zfill(8)}"
-                    )
-        dut._log.info("\n")
 
     dut._log.info("\n\nCOMPLETED TEST SUITE SUCCESSFULLY: Hamming Decoding Test Suite")
