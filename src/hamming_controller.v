@@ -69,7 +69,7 @@ module hamming_controller (
     // Instantiating Hamming Decoder
     hamming_decoder decoder (
         .code(code),
-        .data_out(decoder_data),
+        .data_out(decoder_data)
     );
 
     // // Output based on mode
