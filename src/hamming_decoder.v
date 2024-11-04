@@ -6,7 +6,7 @@
 // Hamming Decoder
 module hamming_decoder (
     input wire [6:0] code,            // 7-bit codeword input
-    output wire [6:0] data_out,       // 7-bit corrected data output
+    output wire [6:0] data_out       // 7-bit corrected data output
 );
 
     wire [6:0] corrected_code; // 7-bit corrected codeword
