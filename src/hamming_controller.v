@@ -33,7 +33,6 @@ module tt_um_sebastienparadis_hamming_top (
         .data(data_in),
         .code(code_in),
         .mode(mode),
-        .rst_n(rst_n),
         .encoded_code(encoded_code),
         .decoded_data(decoded_data)
     );
@@ -53,7 +52,6 @@ module hamming_controller (
     input wire [3:0] data,           // 4-bit input data for encoding
     input wire [6:0] code,           // 7-bit input code for decoding
     input wire mode,                 // Mode selector: 0 for encode, 1 for decode
-    input wire rst_n,                // Active-low reset signal
     output wire [6:0] encoded_code,  // Encoded output code
     output wire [6:0] decoded_data    // Decoded output data
 );
@@ -72,7 +70,6 @@ module hamming_controller (
     hamming_decoder decoder (
         .code(code),
         .data_out(decoder_data),
-        .rst_n(rst_n)
     );
 
     // // Output based on mode
