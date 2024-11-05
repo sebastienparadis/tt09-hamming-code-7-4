@@ -9,15 +9,15 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 This implementation of the (7,4) Hamming Code allows for the same input to be used for encoding and decoding, with dynamic selection of the mode using the MSB of the input.
-<img width="1314" alt="Controller_Circuit" src="https://github.com/user-attachments/assets/1ce046de-125e-49d4-b799-d8b02c43ff84">
 
+<img width="971" alt="Screenshot 2024-11-04 at 8 06 56 PM" src="https://github.com/user-attachments/assets/71be084c-4f85-4fc6-86ad-8c6ae5e9c4c8">
 
 
 
 ### Hamming Encoder (7,4) Overview
 The Hamming (7,4) encoder is a linear error-correcting code that encodes 4 data bits into 7 bits by adding 3 parity bits, which can detect and correct a single-bit error. 
 
-<img width="965" alt="Encoder_Circuit" src="https://github.com/user-attachments/assets/150c6e59-4366-4b26-bf5d-d708dbdd2b21">
+<img width="779" alt="Screenshot 2024-11-04 at 8 07 53 PM" src="https://github.com/user-attachments/assets/8bf81d45-43ef-4c8a-b536-a7fe87e19901">
 
 
 #### Details
@@ -101,7 +101,7 @@ An 8-bit output "uo" with the following format (note the form is {7 6 5 4 3 2 1 
 ### Hamming Decoder (7,4) Overview
 The decoder checks the received 7-bit word for errors and corrects a single-bit error if detected. The process involves recalculating the parity bits and comparing them with the received parity.
 
-<img width="1339" alt="Decoder_Circuit" src="https://github.com/user-attachments/assets/2da875ae-30e2-4892-8cce-91ce262c60fa">
+<img width="1232" alt="Screenshot 2024-11-04 at 8 07 32 PM" src="https://github.com/user-attachments/assets/fd14ada7-9285-40ca-9cd0-64065ebc415d">
 
 
 #### Decode Mode
