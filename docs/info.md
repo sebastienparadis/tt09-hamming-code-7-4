@@ -20,8 +20,6 @@ The Hamming (7,4) encoder is a linear error-correcting code that encodes 4 data 
 <img width="779" alt="Screenshot 2024-11-04 at 8 07 53 PM" src="https://github.com/user-attachments/assets/8bf81d45-43ef-4c8a-b536-a7fe87e19901">
 
 
-#### Details
-
 **Parity Format**
 
 {p1 p2 p3}
