@@ -31,6 +31,7 @@ The Hamming (7,4) encoder is a linear error-correcting code that encodes 4 data 
 {d1 d2 d3 d4}
 
 #### Input
+
 An 8-bit input "ui" with the following format (note the form is {7 6 5 4 3 2 1 0})
 
 **Input Pins**<br>
@@ -45,6 +46,7 @@ An 8-bit input "ui" with the following format (note the form is {7 6 5 4 3 2 1 0
 - ui[7] - Mode Selector (0 => Encode, uses ui[3:0]; 1 => Decode, uses ui[6:0])<br>
 
 #### Output
+
 An 8-bit output "uo" with the following format (note the form is {7 6 5 4 3 2 1 0})
 
 **Output Pins**<br>
@@ -67,9 +69,11 @@ An 8-bit output "uo" with the following format (note the form is {7 6 5 4 3 2 1 
 - Bit 6:4 are not involved in any encoding.
 
 **Encode Mode Input Format**
+
 {selector, X, X, X, d1, d2, d3, d4}
 
 **Encode Mode Output Format**
+
 {p1, p2, d1, p3, d2, d3, d4}
 
 #### Parity Bit Calculations
@@ -114,9 +118,13 @@ The decoder checks the received 7-bit word for errors and corrects a single-bit 
 
 - If decode mode is chosen, the decoder will use bits 7:0, both the data and parity bits, and produce a 7-bit decoded output. The decoded output will be the originally encoded input as long as there were less than 2 flipped bits between encoder output and decoder input.
 
-**Decode Mode Input Format {p1, p2, d1, p3, d2, d3, d4}**
+**Decode Mode Input Format**
 
-**Decode Mode Output Format {p1, p2, d1, p3, d2, d3, d4}**
+{p1, p2, d1, p3, d2, d3, d4}
+
+**Decode Mode Output Format**
+
+{p1, p2, d1, p3, d2, d3, d4}
 
 - a maximum of 1 bit could be flipped at position {S2, S1, S0}.
 
@@ -132,6 +140,7 @@ The syndrome indicates the position of an error (if any):
     - S2 = p3' XOR d2 XOR d3 XOR d4
 
 #### Error Correction
+
 The syndrome {S2, S1, S0} gives the error location:
 
 - If the syndrome is 000, no error is detected.
