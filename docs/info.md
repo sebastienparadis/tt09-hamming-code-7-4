@@ -21,9 +21,14 @@ The Hamming (7,4) encoder is a linear error-correcting code that encodes 4 data 
 
 
 #### Details
-**Parity Format {p1 p2 p3}**
 
-**Data Format   {d1 d2 d3 d4}**
+**Parity Format**
+
+{p1 p2 p3}
+
+**Data Format**
+
+{d1 d2 d3 d4}
 
 #### Input
 An 8-bit input "ui" with the following format (note the form is {7 6 5 4 3 2 1 0})
